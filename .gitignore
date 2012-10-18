@@ -1,0 +1,8 @@
+bin
+build
+tmp
+2do
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+Makefile
