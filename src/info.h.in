@@ -10,7 +10,10 @@
 
 #define USAGE "2do v" VERSION "\n" \
               "\n" \
-              "Usage:\n" \
-              "  - none\n"
+              "Usage: 2do <command> [args] ...\n" \
+              "\n" \
+              "Commands:\n" \
+              "    help         shows this help message\n" \
+              "    add          adds an message to the todo file\n"
 
 #endif /* _INFO_H */

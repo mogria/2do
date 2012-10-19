@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include "exception.h"
 #include "2do.h"
 #include "add.h"
 #include "help.h"
@@ -12,7 +13,7 @@ int main(int argc, char **argv) {
   int (*commands[])(int, char**) = {COMMAND_FUNCTIONS};
   int (*command)(int, char**) = void_command;
   char *command_name = NULL;
-  int i;
+  int i, back;
 
   gen2d_string_array(&command_names, NUM_COMMANDS, COMMAND_NAMES);
 
@@ -34,7 +35,13 @@ int main(int argc, char **argv) {
 
   free(command_names);
 
-  return command(argc - 2, argv + 2);
+  TRY {
+    back = command(argc - 2, argv + 2);
+  } CATCH {
+    fprintf(stderr, "error #%i %s\n", EXCEPTION_ERRCODE, EXCEPTION_MESSAGE);
+    back = 1;
+  }
+  return back;
 }
 
 
