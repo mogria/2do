@@ -9,9 +9,11 @@ set (2do_VERSION_APPENDIX "-alpha")
 
 FILE(GLOB_RECURSE 2DO_SOURCE_FILES "src/*.c")
 
+set (CMAKE_C_FLAGS "-g -Wall")
+
 configure_file(
-  "${PROJECT_SOURCE_DIR}/src/2do.h.in"
-  "${PROJECT_BINARY_DIR}/src/2do.h"
+  "${PROJECT_SOURCE_DIR}/src/info.h.in"
+  "${PROJECT_BINARY_DIR}/src/info.h"
 )
 
 include_directories(${PROJECT_BINARY_DIR})
