@@ -4,15 +4,17 @@
 #include "help.h"
 #include "add.h"
 
-#define NUM_COMMANDS 2
+#define NUM_COMMANDS 3
 
 #define COMMAND_NAMES \
   "help", \
-  "add"
+  "add", \
+  "remove"
 
 #define COMMAND_FUNCTIONS \
   help_command, \
-  add_command
+  add_command, \
+  remove_command
 
 #define NO_COMMAND (0)
 

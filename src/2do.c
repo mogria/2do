@@ -6,6 +6,7 @@
 #include "2do.h"
 #include "add.h"
 #include "help.h"
+#include "remove.h"
 
 
 int main(int argc, char **argv) {

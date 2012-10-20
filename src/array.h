@@ -1,6 +1,8 @@
 #ifndef _ARRAY_H
 #define _ARRAY_H
 
+#include <stdlib.h>
+
 
 // allocate memory for an 1 dimensional array
 #define ALLOC1(type, varname, size)  do { \
@@ -14,6 +16,11 @@
   for(y = 0; y < size1; y++) { \
     ALLOC1(type, varname[y], size2); \
   } \
+} while(0)
+
+// realloc an array
+#define RALLOC1(type, varname, new_size) do { \
+  varname = realloc(varname, (new_size) * sizeof(type)); \
 } while(0)
 
 // grab an part of an 1 dimensional array
