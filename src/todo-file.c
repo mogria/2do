@@ -22,32 +22,47 @@ void truncate_todo_file(FILE *todo_file) {
   }
 }
 
-void remove_line_by_number(FILE *todo_file, int number) {
-  char **linebuffer;
-  int size = 1;
-  int *linesizes;
-  int current_linesize = 0;
-  int i;
 
-  char c = '\n';
+void read_todo_file(char ***buffer, size_t **linesizes, size_t *size, FILE *todo_file) {
+  char c;
+  size_t current_linesize = 0;
+  *size = 1;
 
-  ALLOC1(char *, linebuffer, size);
-  ALLOC1(int, linesizes, size);
-  linesizes[size - 1] = 0;
-  ALLOC1(char, linebuffer[size - 1], linesizes[size - 1]);
+  // go back to start of the file
+  rewind(todo_file);
+
+  // allocate memory for char pointers & size_t's
+  // to store the line length of each line
+  ALLOC1(char *, *buffer, *size);
+  ALLOC1(size_t, *linesizes, *size);
+  (*linesizes)[*size - 1] = 0;
+  ALLOC1(char, (*buffer)[*size - 1], (*linesizes)[*size - 1]);
+
+  // iterate through the file until the end
   while((c = fgetc(todo_file)) != EOF) {
+
+    // create a new element to the buffer if a new line begins
     if(c == '\n') {
-      size++;
-      RALLOC1(char *, linebuffer, size);
-      RALLOC1(int, linesizes, size);
-      linesizes[size - 1] = 0;
-      ALLOC1(char, linebuffer[size - 1], linesizes[size - 1]);
+      (*size)++;
+      RALLOC1(char *, *buffer, *size);
+      RALLOC1(size_t, *linesizes, *size);
+      (*linesizes)[(int)(*size - 1)] = 0;
+      ALLOC1(char, (*buffer)[*size - 1], (*linesizes)[*size - 1]);
     } else {
-      current_linesize = ++linesizes[size - 1];
-      RALLOC1(char, linebuffer[size - 1], current_linesize);
-      linebuffer[size - 1][current_linesize - 1] = c;
+      current_linesize = ++((*linesizes)[*size - 1]);
+      RALLOC1(char, (*buffer)[*size - 1], current_linesize);
+      (*buffer)[*size - 1][current_linesize - 1] = c;
     }
   }
+}
+
+void remove_line_by_number(FILE *todo_file, int number) {
+  char **linebuffer;
+  size_t *linesizes;
+  size_t size;
+  size_t i;
+
+  read_todo_file(&linebuffer, &linesizes, &size, todo_file);
 
   truncate_todo_file(todo_file);
 
