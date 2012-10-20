@@ -7,6 +7,7 @@
 #include "add.h"
 #include "help.h"
 #include "remove.h"
+#include "list.h"
 
 
 int main(int argc, char **argv) {
