@@ -6,34 +6,34 @@
 
 // allocate memory for an 1 dimensional array
 #define ALLOC1(type, varname, size)  do { \
-  varname = calloc((size), sizeof(type)); \
+  (varname) = calloc((size), sizeof(type)); \
 } while(0)
 
 // allocate memory for an 2 dimensional array
 #define ALLOC2(type, varname, size1, size2)  do { \
-  ALLOC1(type*, varname, size1); \
+  ALLOC1(type*, (varname), (size1)); \
   int y; \
   for(y = 0; y < size1; y++) { \
-    ALLOC1(type, varname[y], size2); \
+    ALLOC1(type, (varname)[y], (size2)); \
   } \
 } while(0)
 
 // realloc an array
 #define RALLOC1(type, varname, new_size) do { \
-  varname = realloc(varname, (new_size) * sizeof(type)); \
+  (varname) = realloc((varname), (new_size) * sizeof(type)); \
 } while(0)
 
 // grab an part of an 1 dimensional array
 #define PART1(dest, source, offset) do {\
-  dest = &source[offset]; \
+  (dest) = &(source)[(offset)]; \
 } while(0)
 
 // grab an part of an 2 dimensional array
 #define PART2(type, dest, dest_size1, src, offset1, offset2) do {\
   int i; \
-  ALLOC1(type*, dest, dest_size1); \
-  for(i = 0; i < dest_size1; i++) { \
-    PART1(dest[i], src[i + offset1], offset2); \
+  ALLOC1(type*, (dest), (dest_size1)); \
+  for(i = 0; i < (dest_size1); i++) { \
+    PART1((dest)[i], (src)[i + (offset1)], (offset2)); \
   } \
 } while(0)
 
@@ -46,7 +46,7 @@
 #define FREE2(varname, size) do { \
   int y = 0; \
   for(y = 0; y < size; y++) { \
-    FREE1(varname[y]); \
+    FREE1((varname)[y]); \
   } \
   FREE1(varname); \
 } while(0)
