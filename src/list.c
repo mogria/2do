@@ -1,6 +1,7 @@
 #include "list.h"
 #include "array.h"
 #include "todo-file.h"
+#include "file.h"
 #include <string.h>
 
 int list_command(int argc, char **argv) {
@@ -12,7 +13,7 @@ int list_command(int argc, char **argv) {
   size_t maxsize = 4;
   FILE *todo_file = open_todo_file("r");
 
-  read_todo_file(&buffer, &linesizes, &size, todo_file);
+  read_file(&buffer, &linesizes, &size, todo_file);
 
   for(i = 0; i < size; i++) {
     if(maxsize < linesizes[i]) {
