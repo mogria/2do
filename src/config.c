@@ -93,3 +93,6 @@ struct config *get_config() {
   return &config;
 }
 
+
+void cofig_command(int argc, char **argv) {
+}
