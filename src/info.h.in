@@ -16,6 +16,9 @@
               "    help         shows this help message\n" \
               "    add          adds an message to the todo file\n" \
               "    remove       remove one or more entries from todo file\n" \
-              "    list         list all the added todo tasks\n"
+              "    list         list all the added todo tasks\n" \
+              "    config       get and set configuration values\n" 
+
+#define CONFIG_FILE ".2dorc"
 
 #endif /* _INFO_H */
