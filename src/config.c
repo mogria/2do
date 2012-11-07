@@ -7,11 +7,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-#define DIRECTIVE_SIZE ((size_t)32)
-#define VALUE_SIZE ((size_t)255)
-#define LINE_FORMAT_SIZE (30)
-#define NUM_DIRECTIVES 1
-
 static struct config _offset = {};
 
 void set_config_value_int(struct config *config, void *dest, char *value) {
@@ -29,8 +24,8 @@ void set_config_value_bool(struct config *config, void *dest, char *value) {
 }
 
 void set_config_value_string(struct config *config, void *dest, char *value) {
-  size_t len = strlen(value);
-  strncpy((char*)dest, value, VALUE_SIZE < len ? VALUE_SIZE : len);
+  strncpy((char*)dest, value, CONFIG_VALUE_SIZE);
+  ((char*)dest)[CONFIG_VALUE_SIZE - 1] = '\0';
 }
 
 void get_config_value_int(struct config *config, void *source, char *dest, size_t dest_size) {
@@ -45,16 +40,19 @@ void get_config_value_string(struct config *config, void *source, char *dest, si
   strncpy(dest, (char *)source, dest_size);
 }
 
-static char config_directives[NUM_DIRECTIVES][DIRECTIVE_SIZE] = {
-  "list_markdown_table"
+static char config_directives[CONFIG_NUM_DIRECTIVES][CONFIG_DIRECTIVE_SIZE] = {
+  "list_markdown_table",
+  "todo_filename"
 };
 
-static ptrdiff_t config_offsets[NUM_DIRECTIVES] = {
-   (char *)&_offset.list_markdown_table - (char *)&_offset
+static ptrdiff_t config_offsets[CONFIG_NUM_DIRECTIVES] = {
+   (char *)&_offset.list_markdown_table - (char *)&_offset,
+   (char *)&_offset.todo_filename - (char *)&_offset
 };
 
-static size_t config_function_mapping[NUM_DIRECTIVES] = {
-  1
+static size_t config_function_mapping[CONFIG_NUM_DIRECTIVES] = {
+  1,
+  2
 };
 
 static void (*config_setter_functions[])(struct config*, void*, char*) = {
@@ -69,16 +67,11 @@ static void (*config_getter_functions[])(struct config*, void*, char*, size_t) =
   get_config_value_string
 };
 
-
-void initialize_config(struct config *config) {
-  config->list_markdown_table = 0;
-}
-
 char *get_fscanf_format_config_line() {
-  static char fscanf_format[LINE_FORMAT_SIZE] = {};
+  static char fscanf_format[CONFIG_LINE_FORMAT_SIZE] = {};
 
   if(*fscanf_format == '\0') {
-    snprintf(fscanf_format, LINE_FORMAT_SIZE, "%%%i[^ ]%%*[ ]%%%i[^\r\n]", DIRECTIVE_SIZE, VALUE_SIZE);
+    snprintf(fscanf_format, CONFIG_LINE_FORMAT_SIZE, "%%%i[a-z_]%%*[ ]%%%i[^\r\n]", CONFIG_DIRECTIVE_SIZE, CONFIG_VALUE_SIZE);
   }
   return fscanf_format;
 }
@@ -86,7 +79,7 @@ char *get_fscanf_format_config_line() {
 int get_config_directive_index(struct config *config, char *directive) {
   int i, match = -1;
 
-  for(i = 0; i < NUM_DIRECTIVES; i++) {
+  for(i = 0; i < CONFIG_NUM_DIRECTIVES; i++) {
     if(strcmp(directive, config_directives[i]) == 0) {
       match = i;
       break;
@@ -124,8 +117,8 @@ void parse_config_file(struct config *config, char *filename) {
   size_t size;
   int i;
   int num_results;
-  char current_directive[DIRECTIVE_SIZE];
-  char current_value[VALUE_SIZE];
+  char current_directive[CONFIG_DIRECTIVE_SIZE];
+  char current_value[CONFIG_VALUE_SIZE];
   char *fscanf_format = get_fscanf_format_config_line();
   FILE *file = fopen(filename, "r");
 
@@ -137,8 +130,8 @@ void parse_config_file(struct config *config, char *filename) {
   fclose(file);
 
   for(i = 0; i < size; i++) {
-    memset(current_directive, 0, DIRECTIVE_SIZE);
-    memset(current_value, 0, VALUE_SIZE);
+    memset(current_directive, 0, CONFIG_DIRECTIVE_SIZE);
+    memset(current_value, 0, CONFIG_VALUE_SIZE);
     num_results = sscanf(buffer[i], fscanf_format, current_directive, current_value);
     if(num_results == 2) { // found two strings (directive and value) on the current line?
       set_config_value(config, current_directive, current_value);
@@ -165,13 +158,4 @@ struct config *get_config() {
 }
 
 
-int config_command(int argc, char **argv) {
-  char dest[255];
-  if(argv[0] > 0) {
-    get_config_value(get_config(), argv[0], dest, 255); 
-    printf("%s %s\n", argv[0], dest);
-  } else {
-    puts("Usage: 2do config <directive> [new_value]");
-  }
-  return 0;
-}
+
