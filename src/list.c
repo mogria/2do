@@ -2,6 +2,7 @@
 #include "array.h"
 #include "todo-file.h"
 #include "file.h"
+#include "config.h"
 #include <string.h>
 
 int list_command(int argc, char **argv) {
@@ -24,7 +25,14 @@ int list_command(int argc, char **argv) {
  
   ALLOC1(char, line, maxsize + 1);
   memset(line, '-', maxsize);
-  line[4] = '+';
+
+  if(get_config()->list_markdown_table) {
+    line[0] = ':';
+    line[4] = '|';
+    line[5] = ':';
+  } else {
+    line[4] = '+';
+  }
   
   printf("%3s | %s\n", "#", "task");
   printf("%s\n", line);
