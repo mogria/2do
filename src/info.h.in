@@ -19,6 +19,4 @@
               "    list         list all the added todo tasks\n" \
               "    config       get and set configuration values\n" 
 
-#define CONFIG_FILE ".2dorc"
-
 #endif /* _INFO_H */
