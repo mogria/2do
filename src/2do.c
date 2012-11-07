@@ -8,7 +8,7 @@
 #include "help.h"
 #include "remove.h"
 #include "list.h"
-#include "config.h"
+#include "config-command.h"
 
 
 int main(int argc, char **argv) {
