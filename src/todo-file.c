@@ -7,8 +7,8 @@
 
 FILE *open_todo_file(const char *mode) {
   FILE *todo_file;
-  printf("trying to open todo-file: '%s'\n\n", get_config()->todo_filename);
-  todo_file = fopen(get_config()->todo_filename, mode);
+  char *filename = get_config()->todo_filename;
+  todo_file = fopen(filename, mode);
   if(todo_file == NULL) {
     THROW("could not open todo file", 1);
   }

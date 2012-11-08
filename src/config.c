@@ -24,8 +24,11 @@ void set_config_value_bool(struct config *config, void *dest, char *value) {
 }
 
 void set_config_value_string(struct config *config, void *dest, char *value) {
-  strncpy((char*)dest, value, CONFIG_VALUE_SIZE);
-  ((char*)dest)[CONFIG_VALUE_SIZE - 1] = '\0';
+  memset((char*)dest, 0, CONFIG_VALUE_SIZE);
+  int len = strlen(value);
+  len = len < CONFIG_VALUE_SIZE - 1 ? len : CONFIG_VALUE_SIZE - 1; 
+  strncpy((char*)dest, value, len);
+  ((char*)dest)[len] = '\0';
 }
 
 void get_config_value_int(struct config *config, void *source, char *dest, size_t dest_size) {
@@ -71,7 +74,7 @@ char *get_fscanf_format_config_line() {
   static char fscanf_format[CONFIG_LINE_FORMAT_SIZE] = {};
 
   if(*fscanf_format == '\0') {
-    snprintf(fscanf_format, CONFIG_LINE_FORMAT_SIZE, "%%%i[a-z_]%%*[ ]%%%i[^\r\n]", CONFIG_DIRECTIVE_SIZE, CONFIG_VALUE_SIZE);
+    snprintf(fscanf_format, CONFIG_LINE_FORMAT_SIZE, "%%%i[a-z_]%%*[ ]%%%i[^\x01-\x1F]", CONFIG_DIRECTIVE_SIZE, CONFIG_VALUE_SIZE);
   }
   return fscanf_format;
 }
