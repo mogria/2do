@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "info.h"
+#include "../info.h"
 #include "help.h"
 
 int help_command(int argc, char **argv) {

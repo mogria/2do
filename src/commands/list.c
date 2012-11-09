@@ -1,8 +1,8 @@
 #include "list.h"
-#include "array.h"
-#include "todo-file.h"
-#include "file.h"
-#include "config.h"
+#include "../array.h"
+#include "../todo-file/todo-file.h"
+#include "../file/file.h"
+#include "../config/config.h"
 #include <string.h>
 
 int list_command(int argc, char **argv) {

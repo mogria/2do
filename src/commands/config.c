@@ -1,4 +1,4 @@
-#include "config-command.h"
+#include "config.h"
 #include <stdio.h>
 
 int config_command(int argc, char **argv) {

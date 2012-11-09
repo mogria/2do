@@ -1,8 +1,8 @@
 #include "todo-file.h"
-#include "default-config.h"
-#include "exception.h"
-#include "array.h"
-#include "file.h"
+#include "../exception.h"
+#include "../array.h"
+#include "../file/file.h"
+#include "../config/config.h"
 #include <stdio.h>
 
 FILE *open_todo_file(const char *mode) {

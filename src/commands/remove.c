@@ -1,7 +1,7 @@
 #include "remove.h"
-#include "arguments.h"
-#include "exception.h"
-#include "todo-file.h"
+#include "../arguments.h"
+#include "../exception.h"
+#include "../todo-file/todo-file.h"
 #include <stdlib.h>
 
 int remove_command(int argc, char **argv) {

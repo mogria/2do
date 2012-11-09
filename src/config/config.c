@@ -1,8 +1,8 @@
 #include "config.h"
-#include "exception.h"
-#include "array.h"
-#include "file.h"
-#include "info.h"
+#include "../exception.h"
+#include "../array.h"
+#include "../file/file.h"
+#include "../info.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>

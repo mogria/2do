@@ -1,7 +1,7 @@
 #include "add.h"
-#include "exception.h"
-#include "arguments.h"
-#include "todo-file.h"
+#include "../exception.h"
+#include "../arguments.h"
+#include "../todo-file/todo-file.h"
 
 int add_command(int argc, char **argv) {
   FILE *todo_file = open_todo_file("a");

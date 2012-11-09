@@ -1,6 +1,6 @@
 #include "file.h"
-#include "array.h"
-#include "exception.h"
+#include "../array.h"
+#include "../exception.h"
 #include <stdlib.h>
 #include <stdio.h>
 

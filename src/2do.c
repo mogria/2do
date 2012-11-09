@@ -4,12 +4,12 @@
 #include <stdarg.h>
 #include "exception.h"
 #include "2do.h"
-#include "add.h"
-#include "help.h"
-#include "remove.h"
-#include "list.h"
-#include "done.h"
-#include "config-command.h"
+#include "commands/add.h"
+#include "commands/help.h"
+#include "commands/remove.h"
+#include "commands/list.h"
+#include "commands/done.h"
+#include "commands/config.h"
 
 
 int main(int argc, char **argv) {
