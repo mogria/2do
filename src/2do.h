@@ -1,21 +1,23 @@
 #ifndef _2DO_H
 #define _2DO_H
 
-#define NUM_COMMANDS 5
+#define NUM_COMMANDS 6
 
 #define COMMAND_NAMES \
   "help", \
   "add", \
   "remove", \
   "list", \
-  "config"
+  "config", \
+  "done"
 
 #define COMMAND_FUNCTIONS \
   help_command, \
   add_command, \
   remove_command, \
   list_command, \
-  config_command
+  config_command, \
+  done_command
 
 #define NO_COMMAND (0)
 

@@ -8,6 +8,7 @@
 #include "help.h"
 #include "remove.h"
 #include "list.h"
+#include "done.h"
 #include "config-command.h"
 
 
