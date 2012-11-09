@@ -9,11 +9,12 @@ struct config;
 #define CONFIG_DIRECTIVE_SIZE ((size_t)32)
 #define CONFIG_VALUE_SIZE ((size_t)255)
 #define CONFIG_LINE_FORMAT_SIZE (30)
-#define CONFIG_NUM_DIRECTIVES 2
+#define CONFIG_NUM_DIRECTIVES 3
 
 struct config {
   short list_markdown_table;
   char todo_filename[CONFIG_VALUE_SIZE];
+  char max_linesize;
 };
 
 struct config *get_config();

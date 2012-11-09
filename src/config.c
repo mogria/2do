@@ -45,17 +45,20 @@ void get_config_value_string(struct config *config, void *source, char *dest, si
 
 static char config_directives[CONFIG_NUM_DIRECTIVES][CONFIG_DIRECTIVE_SIZE] = {
   "list_markdown_table",
-  "todo_filename"
+  "todo_filename",
+  "max_linesize"
 };
 
 static ptrdiff_t config_offsets[CONFIG_NUM_DIRECTIVES] = {
    (char *)&_offset.list_markdown_table - (char *)&_offset,
-   (char *)&_offset.todo_filename - (char *)&_offset
+   (char *)&_offset.todo_filename - (char *)&_offset,
+   (char *)&_offset.max_linesize - (char *)&_offset
 };
 
 static size_t config_function_mapping[CONFIG_NUM_DIRECTIVES] = {
   1,
-  2
+  2,
+  0
 };
 
 static void (*config_setter_functions[])(struct config*, void*, char*) = {
