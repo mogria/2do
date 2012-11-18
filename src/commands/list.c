@@ -46,7 +46,7 @@ int list_command(int argc, char **argv) {
     current_linesize = max_linesize <= 10 ? linesizes[i] : max_linesize - 6;
     do {
       if(!printed_number) {
-        printf("%3i | ", i + 1);
+        printf("%3lu | ", i + 1);
         printed_number = 1;
       } else {
         printf("    | ");

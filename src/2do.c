@@ -16,7 +16,6 @@ int main(int argc, char **argv) {
   char **command_names;
   int (*commands[])(int, char**) = {COMMAND_FUNCTIONS};
   int (*command)(int, char**) = void_command;
-  char *command_name = NULL;
   int i, back;
 
   gen2d_string_array(&command_names, NUM_COMMANDS, COMMAND_NAMES);
@@ -25,7 +24,6 @@ int main(int argc, char **argv) {
     for(i = 0; i < NUM_COMMANDS; i++) {
       if(strcmp(argv[1], command_names[i]) == 0) {
         command = commands[i];
-        command_name = command_names[i];
       }
     }
     

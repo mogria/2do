@@ -77,7 +77,7 @@ char *get_fscanf_format_config_line() {
   static char fscanf_format[CONFIG_LINE_FORMAT_SIZE] = {};
 
   if(*fscanf_format == '\0') {
-    snprintf(fscanf_format, CONFIG_LINE_FORMAT_SIZE, "%%%i[a-z_]%%*[ ]%%%i[^\x01-\x1F]", CONFIG_DIRECTIVE_SIZE, CONFIG_VALUE_SIZE);
+    snprintf(fscanf_format, CONFIG_LINE_FORMAT_SIZE, "%%%lu[a-z_]%%*[ ]%%%lu[^\x01-\x1F]", CONFIG_DIRECTIVE_SIZE, CONFIG_VALUE_SIZE);
   }
   return fscanf_format;
 }
