@@ -8,6 +8,6 @@ cmake_install.cmake
 cmake_uninstall.cmake
 cmake_uninstall.cmake.in
 Makefile
-*.txt
+todo.txt
 .2dorc
 src/info.h
