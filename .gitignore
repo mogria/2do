@@ -5,6 +5,8 @@ tmp
 CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
+cmake_uninstall.cmake
+cmake_uninstall.cmake.in
 Makefile
 *.txt
 .2dorc
