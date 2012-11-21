@@ -1,0 +1,3 @@
+[submodule "lib/mcstring"]
+	path = lib/mcstring
+	url = https://github.com/mogria/mcstring.git
