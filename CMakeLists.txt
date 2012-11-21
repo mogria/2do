@@ -54,7 +54,7 @@ configure_file(
 )
 
 file(GLOB_RECURSE 2DO_SOURCE_FILES "src/*.c")
-include_directories(${PROJECT_BINARY_DIR})
+include_directories(${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/lib/mcstring/include)
 
 add_executable(2do ${2DO_SOURCE_FILES})
 
@@ -62,3 +62,5 @@ install(TARGETS 2do DESTINATION /usr/bin)
 add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 add_subdirectory(lib)
+
+target_link_libraries(2do mcstring)
