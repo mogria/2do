@@ -1,7 +1,7 @@
 #include "config.h"
 #include "../exception.h"
 #include "../array.h"
-#include "../file/file.h"
+#include "../file/filebuffer.h"
 #include "../info.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -118,9 +118,8 @@ void set_config_value(struct config *config, char *directive, char *value) {
 }
 
 void parse_config_file(struct config *config, char *filename) {
-  char **buffer;
-  size_t *linesizes;
-  size_t size;
+  filebuffer buffer;
+  char *line;
   int i;
   int num_results;
   char current_directive[CONFIG_DIRECTIVE_SIZE];
@@ -132,20 +131,21 @@ void parse_config_file(struct config *config, char *filename) {
     THROW("could not open config file", 6);
   }
 
-  read_file(&buffer, &linesizes, &size, file);
+  read_file(&buffer, file);
   fclose(file);
 
-  for(i = 0; i < size; i++) {
+  for(i = 0; i < buffer.num_lines; i++) {
     memset(current_directive, 0, CONFIG_DIRECTIVE_SIZE);
     memset(current_value, 0, CONFIG_VALUE_SIZE);
-    num_results = sscanf(buffer[i], fscanf_format, current_directive, current_value);
+    line = c_string(buffer.lines[i]);
+    num_results = sscanf(line, fscanf_format, current_directive, current_value);
+    free(line);
     if(num_results == 2) { // found two strings (directive and value) on the current line?
       set_config_value(config, current_directive, current_value);
     }
   }
 
-  FREE2(buffer, size);
-  FREE1(linesizes);
+  free_filebuffer(&buffer);
 }
 
 struct config *get_config() {
