@@ -30,25 +30,16 @@ void read_file(filebuffer *buffer, FILE *file) {
 
     // create a new element to the buffer if a new line begins
     if(c == '\n') {
-      buffer->num_lines++;
+      line[linesize] = '\0';
       linesize = 0;
-      buffer->lines[buffer->num_lines] = new_string(line);
+      RALLOC1(mcstring *, buffer->lines, ++buffer->num_lines);
+      buffer->lines[buffer->num_lines - 1] = new_string(line);
       RALLOC1(char, line, 0);
     } else {
       linesize++;
-      RALLOC1(char, line, linesize);
+      RALLOC1(char, line, linesize + 1);
       line[linesize - 1] = c;
     }
-  }
-
-  if(linesize == 0) {
-    linesize--;
-    RALLOC1(mcstring *, buffer->lines, linesize);
-  } else {
-    linesize = 0;
-    buffer->num_lines++;
-    buffer->lines[buffer->num_lines] = new_string(line);
-    RALLOC1(char, line, 0);
   }
 
   FREE1(line);
