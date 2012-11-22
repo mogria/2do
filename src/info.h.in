@@ -8,12 +8,11 @@
 
 #define VERSION VERSION_MAJOR "." VERSION_MINOR "." VERSION_PATCH VERSION_APPENDIX
 
-#define USAGE "2do v" VERSION "\n" \
-              "\n" \
-              "Usage: 2do <command> [args] ...\n" \
+#define USAGE "usage: 2do <command> [args] ...\n" \
               "\n" \
               "Commands:\n" \
               "    help         shows this help message\n" \
+              "    version      shows the version of this program\n" \
               "    add          adds an message to the todo file\n" \
               "    remove       remove one or more entries from todo file\n" \
               "    list         list all the added todo tasks\n" \
