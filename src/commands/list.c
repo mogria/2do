@@ -16,24 +16,28 @@ int list_command(int argc, char **argv) {
   //  2 | second thing on list and
   //    |  some extra stuff
   //<-------------1-------------->
-  //<-2-->
+  //<---2---->
   //      <------------------3-------------------->
   //      <---------4------------>
   // (1) specified_width := <width of the whole output>
   //                        in this case 30
   // (2) required_width := <width required for number column
-  //                       and spaces> always 6
+  //                       and spaces> always 10
   // (3) max_text_size := <max length of a line in buffer>
   //                      in this case 41
   //
   // (4) specified_text_width := <length the text needs to
   //                             be to fit <specified_width>
   //                             in this case 24
-  size_t i, max_text_size, max_width, required_space = 6;
+  size_t i, max_text_size, max_width, required_space = 10;
   size_t specified_width = get_config()->max_linesize;
   size_t specified_text_width, line_offset;
   size_t current_linesize;
   FILE *todo_file = open_todo_file("r");
+
+  if(specified_width < required_space)  {
+    specified_width = required_space;
+  }
 
   read_file(&file, todo_file);
 
@@ -50,7 +54,7 @@ int list_command(int argc, char **argv) {
     max_width = specified_width;
   }
 
-  specified_text_width = max_width - required_space;
+  specified_text_width = max_width - 4;
  
   ALLOC1(char, line, max_width + 1);
   memset(line, '-', max_width);
@@ -76,11 +80,11 @@ int list_command(int argc, char **argv) {
       if(line_offset > 0) {
         printf("    | %s\n", line);
       } else {
-        printf("%3u | %s\n", (unsigned int)i, line);
+        printf("%3u | %s\n", (unsigned int)i + 1, line);
       }
       free(line);
       line_offset += specified_text_width;
-    } while(line_offset + specified_text_width <= string_size(file.lines[i]));
+    } while(line_offset <= string_size(file.lines[i]));
   }
 
   free_filebuffer(&file);
