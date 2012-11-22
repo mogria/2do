@@ -4,8 +4,9 @@
 #include <stdarg.h>
 #include "exception.h"
 #include "2do.h"
-#include "commands/add.h"
 #include "commands/help.h"
+#include "commands/version.h"
+#include "commands/add.h"
 #include "commands/remove.h"
 #include "commands/list.h"
 #include "commands/done.h"
