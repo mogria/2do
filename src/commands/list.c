@@ -1,15 +1,13 @@
 #include "list.h"
 #include "../array.h"
 #include "../todo-file/todo-file.h"
-#include "../file/file.h"
+#include "../file/filebuffer.h"
 #include "../config/config.h"
 #include <string.h>
 
 int list_command(int argc, char **argv) {
-  char **buffer;
+  filebuffer file;
   char *line;
-  size_t *linesizes;
-  size_t size;
   size_t i, u;
   size_t maxsize = 4;
   int max_linesize = get_config()->max_linesize;
@@ -18,11 +16,12 @@ int list_command(int argc, char **argv) {
   unsigned char printed_number = 0;
   FILE *todo_file = open_todo_file("r");
 
-  read_file(&buffer, &linesizes, &size, todo_file);
+  read_file(&file, todo_file);
 
-  for(i = 0; i < size; i++) {
-    if(maxsize < linesizes[i]) {
-      maxsize = linesizes[i];
+  for(i = 0; i < file.num_lines; i++) {
+    int linesize = string_size(file.lines[i]);
+    if(maxsize < linesize) {
+      maxsize = linesize;
     }
   }
   maxsize += 6;
@@ -40,29 +39,27 @@ int list_command(int argc, char **argv) {
   
   printf("%3s | %s\n", "#", "task");
   printf("%s\n", line);
-  for(i = 0; i < size; i++) {
+  for(i = 0; i < file.num_lines; i++) {
     printed_number = 0;
     linepos = 0;
-    current_linesize = max_linesize <= 10 ? linesizes[i] : max_linesize - 6;
+    current_linesize = max_linesize <= 10 ? string_size(file.lines[i]) : max_linesize - 6;
+    copy_string(line, file.lines[i], current_linesize);
     do {
       if(!printed_number) {
-        printf("%3lu | ", i + 1);
+        printf("%3u | ", (unsigned int)i + 1);
         printed_number = 1;
       } else {
         printf("    | ");
       }
-      for(u = 0; u < current_linesize && u + linepos < linesizes[i]; u++) {
-        printf("%c", buffer[i][linepos + u]);
+      for(u = 0; u < current_linesize && u + linepos < string_size(file.lines[i]); u++) {
+        printf("%c", line[linepos + u]);
       }
       puts("");
       linepos += current_linesize;
-    } while(linepos < linesizes[i]);
-    
+    } while(linepos < string_size(file.lines[i]));
+    free(line);
   }
 
-  FREE1(line);
-  FREE1(linesizes);
-  FREE2(buffer, size);
-
+  free_filebuffer(&file);
   return 0;
 }

@@ -1,12 +1,13 @@
 #include "filebuffer.h"
+#include "../array.h"
 #include <stddef.h>
 #include <stdio.h>
 
 void write_file(filebuffer *buffer, FILE *file) {
-  int x,y;
-  char line;
-  for(y = 0; y < filebuffer->num_lines; y++) {
-    line = c_string(filebuffer->lines[y]);
+  int x;
+  char *line;
+  for(x = 0; x < buffer->num_lines; x++) {
+    line = c_string(buffer->lines[x]);
     fprintf(file, "%s\n", line);
     free(line);
   }
