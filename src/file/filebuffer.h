@@ -8,8 +8,8 @@ typedef struct filebuffer {
   size_t num_lines;
 } filebuffer;
 
-void write_file(struct filebuffer *buffer, FILE *file);
-void read_file(struct filebuffer *buffer, FILE *file);
-void free_filebuffer(struct filebuffer *buffer);
+void write_file(filebuffer *buffer, FILE *file);
+void read_file(filebuffer *buffer, FILE *file);
+void free_filebuffer(filebuffer *buffer);
 
 #endif /* _FILEBUFFER_H */
