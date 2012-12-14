@@ -22,7 +22,9 @@ int remove_command(int argc, char **argv) {
 
   todo_file = open_todo_file("r+");
 
-  remove_line_by_number(todo_file, id);
+  if(remove_line_by_number(todo_file, id)) {
+    THROW("line number is out of range", 5);
+  }
 
   fclose(todo_file);
   return 0;

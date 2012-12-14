@@ -16,21 +16,18 @@ FILE *open_todo_file(const char *mode) {
   return todo_file;
 }
 
-void remove_line_by_number(FILE *todo_file, int number) {
+unsigned char remove_line_by_number(FILE *todo_file, int number) {
   filebuffer file;
-  int i;
+  unsigned char ret;
 
   read_file(&file, todo_file);
 
-  truncate_file(todo_file);
-
-  for(i = 0; i < file.num_lines; i++) {
-    if(i + 1 != number) {
-      char *line = c_string(file.lines[i]);
-      fprintf(todo_file, "%s\n", line);
-      free(line);
-    }
+  if((ret = filebuffer_remove(&file, number))) {
+    truncate_file(todo_file);
+    write_file(&file, todo_file);
   }
 
   free_filebuffer(&file);
+
+  return ret;
 }
