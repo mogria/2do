@@ -30,7 +30,7 @@ void read_file(filebuffer *buffer, FILE *file) {
 
     // create a new element to the buffer if a new line begins
     if(c == '\n') {
-      line[linesize] = '\0';
+      line[linesize - 1] = '\0';
       filebuffer_append(buffer, new_string(line));
       linesize = 1;
       RALLOC1(char, line, linesize);
